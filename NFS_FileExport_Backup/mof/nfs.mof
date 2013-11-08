@@ -1,0 +1,21 @@
+class LMI_NFS_Share : CIM_NFSShare
+{
+
+};
+
+class LMI_ExportedFileShareSetting : CIM_ExportedFileShareSetting
+{
+
+};
+
+[Association,Description("An Association between LMI_Nfsshare and LMI_exportedfileShareSetting")]
+class LMI_NFSElementSettingData {
+
+      [Key, Description ( "The managed element." )]
+   LMI_NFS_Share REF Share;
+
+      [Key, Description (
+          "The SettingData object that is associated with the element."
+           )]
+   LMI_ExportedFileShareSetting REF ShareSetting;
+};
