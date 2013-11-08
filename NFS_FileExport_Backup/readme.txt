@@ -5,9 +5,6 @@
 -> Traverse to build dir & cmake
       cmake ..
 
-/* Yet to add in Cmake File */
--> Copy the export.c & export.h from ../src/ to build/src/ directory.
-
 -> Use make & make install
 
 -> Register the provider
