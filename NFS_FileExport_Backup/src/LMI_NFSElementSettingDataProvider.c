@@ -47,7 +47,7 @@ static CMPIStatus LMI_NFSElementSettingDataEnumInstances(
     LMI_ExportedFileShareSettingRef_Init(&fileref, _cb, KNameSpace (cop));
  
     struct nfs *exportinfo = malloc(sizeof(struct nfs));
-    exportinfo=get_export_list();
+    exportinfo=Get_Export_List();
     for(i=0;i<exportinfo->countshare;i++) {
     	snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSShare",i+1, exportinfo->countshare);
     	LMI_NFS_ShareRef_Set_InstanceID(&nfsref, buf);
