@@ -40,14 +40,16 @@ static CMPIStatus LMI_ExportedFileShareSettingEnumInstances(
     int i;
     LMI_ExportedFileShareSetting s;
     struct nfs *exportinfo = malloc(sizeof(struct nfs));
-    exportinfo=get_export_list();
+    exportinfo=Get_Export_List();
     LMI_ExportedFileShareSetting_Init(&s, _cb, KNameSpace (cop));
 	for(i=0;i<exportinfo->countshare;i++) {
 	    snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSExportedFileShareSetting",i+1, exportinfo->countshare);
 	    LMI_ExportedFileShareSetting_Set_InstanceID(&s, buf);
-	    LMI_ExportedFileShareSetting_Set_FileSharingProtocol(&s,2)
-        LMI_ExportedFileShareSetting_Init_ProtocolVersions(&s,1);  
-    	LMI_ExportedFileShareSetting_Set_ProtocolVersions(&s, 0, "v2");
+	    LMI_ExportedFileShareSetting_Set_FileSharingProtocol(&s,2);
+    /*Set up Protocol Version
+            LMI_ExportedFileShareSetting_Init_ProtocolVersions(&s,1);  
+            LMI_ExportedFileShareSetting_Set_ProtocolVersions(&s, 0, "value");
+    */
      	KReturnInstance(cr, s);
     }
     CMReturn(CMPI_RC_OK);
