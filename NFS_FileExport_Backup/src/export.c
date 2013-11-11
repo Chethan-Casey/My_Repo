@@ -12,7 +12,7 @@
 void error(char *,  ...);
 struct nfs* Get_Export_List()
 {
-	char ch1[40];
+    char ch1[40];
     int i,j=0,k=0;
     int n,f1;   
     char buf[BUFSIZ];
@@ -23,9 +23,8 @@ struct nfs* Get_Export_List()
     ptr->share=(char**)malloc(sizeof(char*)*50);
     for(i=0;buf[i]!='\0';i++,k++) {
 		if(isspace(buf[i])) {                
-	        while(buf[i]!='\n')  
-				i++;
-    	    i++;
+	        while(buf[i]!='\n')i++;
+    	                i++;
 			ch1[k]='\0';             
         	ptr->share[j] = calloc(strlen(ch1) + 1, 1);                                                          
         	strcpy(ptr->share[j],ch1);        

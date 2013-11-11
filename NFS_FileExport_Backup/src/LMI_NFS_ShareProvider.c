@@ -43,7 +43,7 @@ static CMPIStatus LMI_NFS_ShareEnumInstances(
     int i;
     char buf[256];
     struct nfs *exportinfo = malloc(sizeof(struct nfs));
-    exportinfo=get_export_list();
+    exportinfo=Get_Export_List();
     for(i=0;i<exportinfo->countshare;i++) {
 		snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSShare",i+1, exportinfo->countshare);
         LMI_NFS_Share_Set_InstanceID(&s, buf);
