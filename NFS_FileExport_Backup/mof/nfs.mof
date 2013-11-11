@@ -1,21 +1,22 @@
+[Description("File Export Sub Profile:An LMI_NFS_Share shows all Nfs shares available in the system")]
 class LMI_NFS_Share : CIM_NFSShare
 {
 
 };
 
+
+[Description("LMI_ExportedFileShareSetting Shows the Properties of all the NFS File Shares")]
 class LMI_ExportedFileShareSetting : CIM_ExportedFileShareSetting
 {
 
 };
 
-[Association,Description("An Association between LMI_Nfsshare and LMI_exportedfileShareSetting")]
+[Association,Description("An Association between LMI_NFS_Share and LMI_ExportedFileShareSetting")]
 class LMI_NFSElementSettingData {
 
-      [Key, Description ( "The managed element." )]
+      [Key, Description ( "The managed element" )]
    LMI_NFS_Share REF Share;
 
-      [Key, Description (
-          "The SettingData object that is associated with the element."
-           )]
+      [Key, Description ("The SettingData object that is associated with the element." )]
    LMI_ExportedFileShareSetting REF ShareSetting;
 };
