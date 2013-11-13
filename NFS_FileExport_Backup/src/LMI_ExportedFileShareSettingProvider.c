@@ -46,10 +46,8 @@ static CMPIStatus LMI_ExportedFileShareSettingEnumInstances(
 	    snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSExportedFileShareSetting",i+1, exportinfo->countshare);
 	    LMI_ExportedFileShareSetting_Set_InstanceID(&s, buf);
 	    LMI_ExportedFileShareSetting_Set_FileSharingProtocol(&s,2);
-    /*Set up Protocol Version
-            LMI_ExportedFileShareSetting_Init_ProtocolVersions(&s,1);  
-            LMI_ExportedFileShareSetting_Set_ProtocolVersions(&s, 0, "value");
-    */
+            LMI_ExportedFileShareSetting_Init_ProtocolVersions(&s,1);
+            LMI_ExportedFileShareSetting_Set_ProtocolVersions(&s,0,getversion());
      	KReturnInstance(cr, s);
     }
     CMReturn(CMPI_RC_OK);

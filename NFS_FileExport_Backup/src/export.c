@@ -8,7 +8,7 @@
 #include "export.h"
 #define PERMS 0666 
 #define path "/var/lib/nfs/etab"     
-    
+#define versionpath "/proc/fs/nfsd/versions"    
 void error(char *,  ...);
 struct nfs* Get_Export_List()
 {
@@ -36,5 +36,12 @@ struct nfs* Get_Export_List()
    	}
     return ptr;
 }
-
-
+char* getversion()
+{
+   int n,f1;
+   char *buf = (char*) malloc(50*sizeof(char));
+   if ((f1 = open(versionpath,O_RDONLY, 0)) == -1)
+        error("cp: can't open ");
+   while ((n = read(f1, buf, BUFSIZ)) > 0);
+   return buf;
+}
