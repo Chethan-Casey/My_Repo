@@ -37,7 +37,7 @@ static CMPIStatus LMI_ExportedFileShareSettingCleanup(
     const CMPIContext* cc,
     CMPIBoolean term)
 {
-	CMReturn(CMPI_RC_OK);
+    CMReturn(CMPI_RC_OK);
 }
 
 static CMPIStatus LMI_ExportedFileShareSettingEnumInstanceNames(
@@ -58,23 +58,38 @@ static CMPIStatus LMI_ExportedFileShareSettingEnumInstances(
     const char** properties)
 {
     char buf[250];
-    int i;
+    int i,length,j;
     LMI_ExportedFileShareSetting s;
-    struct nfs *exportinfo = malloc(sizeof(struct nfs));
-    exportinfo=Get_Export_List();
+    struct nfs *exportinfo = malloc(sizeof(struct nfs));   
+    exportinfo=get_export_list(&length);    
     LMI_ExportedFileShareSetting_Init(&s, _cb, KNameSpace (cop));
-	for(i=0;i<exportinfo->countshare;i++) {
-	    snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSExportedFileShareSetting",i+1, exportinfo->countshare);
-	    LMI_ExportedFileShareSetting_Set_InstanceID(&s, buf);
-	    LMI_ExportedFileShareSetting_Set_FileSharingProtocol(&s,2);
-    /*Set up Protocol Version
-            LMI_ExportedFileShareSetting_Init_ProtocolVersions(&s,1);  
-            LMI_ExportedFileShareSetting_Set_ProtocolVersions(&s, 0, "value");
-    */
-     	KReturnInstance(cr, s);
+    for(i=0;i<exportinfo->countshare;i++)
+    {
+        snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSExportedFileShareSetting",i+1, exportinfo->countshare);
+        LMI_ExportedFileShareSetting_Set_InstanceID(&s, buf);
+        LMI_ExportedFileShareSetting_Set_FileSharingProtocol(&s,2);
+        LMI_ExportedFileShareSetting_Init_ProtocolVersions(&s,1);
+        LMI_ExportedFileShareSetting_Set_ProtocolVersions(&s,0,getversion());
+        for(j=0;j<length+2;j++)
+        {
+            switch(j)
+            {
+                case 2     :  LMI_ExportedFileShareSetting_Set_Caption(&s, exportinfo->share[i][j]);
+                              break;
+                case 3     :  LMI_ExportedFileShareSetting_Set_ConfigurationName(&s,exportinfo->share[i][j]);
+                              break;
+                case 4     :  LMI_ExportedFileShareSetting_Set_Description(&s,exportinfo->share[i][j]);
+                              break;
+                case 5     :  LMI_ExportedFileShareSetting_Set_OtherEnabledState(&s,exportinfo->share[i][j]);
+                              break;
+            }                        
+     //KReturnInstance(cr, s);
+      }
+     KReturnInstance(cr, s); 
     }
     CMReturn(CMPI_RC_OK);
 }
+
 static CMPIStatus LMI_ExportedFileShareSettingGetInstance(
     CMPIInstanceMI* mi,
     const CMPIContext* cc,

@@ -22,10 +22,10 @@
 
 #ifndef EXPORT_H
 #define EXPORT_H
-
-struct nfs* Get_Export_List();
-struct nfs {
-  char **share;
+char* getversion();
+struct nfs* get_export_list(int*);
+struct nfs{
+  char ***share;
   int countshare;
 };
 

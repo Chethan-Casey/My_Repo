@@ -45,7 +45,7 @@ static CMPIStatus LMI_NFSElementSettingDataEnumInstanceNames(
     const CMPIResult* cr,
     const CMPIObjectPath* cop)
 {
-	return KDefaultEnumerateInstanceNames(
+    return KDefaultEnumerateInstanceNames(
         _cb, mi, cc, cr, cop);
 }
 
@@ -56,7 +56,7 @@ static CMPIStatus LMI_NFSElementSettingDataEnumInstances(
     const CMPIObjectPath* cop, 
     const char** properties) 
 {
-    int i;
+    int i,length;
     char buf[250];
     LMI_NFSElementSettingData n;
     LMI_NFSElementSettingData_Init(&n, _cb, KNameSpace (cop));
@@ -68,15 +68,16 @@ static CMPIStatus LMI_NFSElementSettingDataEnumInstances(
     LMI_ExportedFileShareSettingRef_Init(&fileref, _cb, KNameSpace (cop));
  
     struct nfs *exportinfo = malloc(sizeof(struct nfs));
-    exportinfo=Get_Export_List();
-    for(i=0;i<exportinfo->countshare;i++) {
-    	snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSShare",i+1, exportinfo->countshare);
-    	LMI_NFS_ShareRef_Set_InstanceID(&nfsref, buf);
-    	snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSExportedFileShareSetting",i+1, exportinfo->countshare);
-    	LMI_ExportedFileShareSettingRef_Set_InstanceID(&fileref, buf);
-    	LMI_NFSElementSettingData_Set_Share(&n, &nfsref);
-    	LMI_NFSElementSettingData_Set_ShareSetting(&n, &fileref);
-    	KReturnInstance(cr, n);
+    exportinfo=get_export_list(&length);
+    for(i=0;i<exportinfo->countshare;i++)
+    {
+    snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSShare",i+1, exportinfo->countshare);
+    LMI_NFS_ShareRef_Set_InstanceID(&nfsref, buf);
+    snprintf(buf, sizeof buf,"%s:%d[of(%d)]", "NFSExportedFileShareSetting",i+1, exportinfo->countshare);
+    LMI_ExportedFileShareSettingRef_Set_InstanceID(&fileref, buf);
+    LMI_NFSElementSettingData_Set_Share(&n, &nfsref);
+    LMI_NFSElementSettingData_Set_ShareSetting(&n, &fileref);
+    KReturnInstance(cr, n);
     }
 
     CMReturn(CMPI_RC_OK);
